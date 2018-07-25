@@ -54,11 +54,13 @@ services:
       - "443:443"
       - "5000:5000"
     environment:
+      environment:
+      - KIBANA_USERNAME
+      - KIBANA_PASSWORD
       - CERTBOT_EMAIL=contact@inka-products.ovh
       - DOMAIN_NAME=buron.ovh
     volumes:
       - ./nginx/logs:/var/log/nginx/
-      - "./nginx/kibana.htpasswd:/etc/nginx/conf.d/kibana.htpasswd"
       - "./nginx/certificate/kibana.crt:/etc/nginx/ssl/kibana.crt"
       - "./nginx/certificate/kibana.key:/etc/nginx/ssl/kibana.key"
       - "./nginx/certificate/dhparam.pem:/etc/nginx/ssl/dhparam.pem"
