@@ -1,1 +1,4 @@
 .idea
+nginx/logs
+nginx/kibana.htpasswd
+nginx/certificate
