@@ -18,7 +18,10 @@ RUN apt update && \
 COPY ./scripts/ /scripts
 RUN chmod +x /scripts/*.sh
 
-COPY *.conf /etc/nginx/conf.d/
+RUN mkdir /etc/nginx/stream.d/
+COPY ./stream.d/ /etc/nginx/stream.d/
+COPY ./conf.d/ /etc/nginx/conf.d/
+COPY *.conf /etc/nginx/
 
 ENTRYPOINT []
 CMD ["/bin/bash", "/scripts/entrypoint.sh"]

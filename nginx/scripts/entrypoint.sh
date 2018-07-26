@@ -10,16 +10,18 @@ trap "kill 0" EXIT
 # Create Kibana username and password into htpasswd file
 KIBANA_USERNAME=${KIBANA_USERNAME:-admin}
 KIBANA_PASSWORD=${KIBANA_PASSWORD:-admin}
-echo ${KIBANA_USERNAME}
-echo ${KIBANA_PASSWORD}
-htpasswd -c -b /etc/nginx/conf.d/kibana.htpasswd ${KIBANA_USERNAME} ${KIBANA_PASSWORD}
+HTPASSWD_FILE="/etc/nginx/conf.d/kibana.htpasswd"
+if [ -f $HTPASSWD_FILE ] ; then
+    rm $HTPASSWD_FILE
+fi
+htpasswd -c -b ${HTPASSWD_FILE} ${KIBANA_USERNAME} ${KIBANA_PASSWORD}
 
 # Immediately run auto_enable_configs so that nginx is in a runnable state
 # auto_enable_configs
 
 # Start up nginx, save PID so we can reload config inside of run_certbot.sh
-nginx -g "daemon off;" &
-export NGINX_PID=$!
+nginx -g "daemon off;" #&
+# export NGINX_PID=$!
 
 # Next, run certbot to request all the ssl certs we can find
 # /scripts/run_certbot.sh
