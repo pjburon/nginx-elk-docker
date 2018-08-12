@@ -18,17 +18,18 @@ fi
 exit_code=0
 set -x
 
-# if ! get_certificate $DOMAIN_NAME $CERTBOT_EMAIL; then
-#     error "Cerbot failed for $domain. Check the logs for details."
-#     exit_code=1
-# fi
+if ! get_certificate $DOMAIN_NAME $CERTBOT_EMAIL; then
+    error "Cerbot failed for $DOMAIN_NAME. Check the logs for details."
+    exit_code=1
+fi
 
-# After trying to get all our certificates, auto enable any configs that we
-# did indeed get certificates for
-auto_enable_configs
+if [[ $exit_code -eq 0 ]]; then
+    # After trying to get all our certificates, auto enable any configs that we  did indeed get certificates for
+    auto_enable_configs
 
-# Finally, tell nginx to reload the configs
-kill -HUP $NGINX_PID
+    # Finally, tell nginx to reload the configs
+    kill -HUP $NGINX_PID
+fi
 
 set +x
 exit $exit_code

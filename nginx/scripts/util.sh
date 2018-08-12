@@ -27,7 +27,7 @@ keyfiles_exist() {
 
 # Helper function that checks if /etc/nginx/conf.d/kibana.conf has its keyfile yet, and disable it through renaming
 auto_enable_configs() {
-    conf_file="/etc/nginx/conf.d/default.conf"
+    conf_file="/etc/nginx/conf.d/kibana.conf"
 
     if keyfiles_exist $conf_file; then
         if [ ${conf_file##*.} = nokey ]; then
@@ -36,7 +36,7 @@ auto_enable_configs() {
         fi
     else
         if [ ${conf_file##*.} = conf ]; then
-            echo "Keyfile(s) missing for $conf_file, disabling..."
+            echo "Keyfile missing for $conf_file, disabling..."
             mv $conf_file $conf_file.nokey
         fi
     fi
@@ -47,7 +47,7 @@ auto_enable_configs() {
 get_certificate() {
     echo "Getting certificate for domain $1 on behalf of user $2"
 
-    certbot certonly --staging --agree-tos --keep -n --text --email $2 --server \
+    certbot certonly --staging --agree-tos --keep -n --text --email $2 \
         https://acme-v01.api.letsencrypt.org/directory -d $1 \
         --standalone --standalone-supported-challenges http-01 --debug
 }

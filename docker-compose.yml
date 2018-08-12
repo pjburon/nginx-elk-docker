@@ -65,8 +65,7 @@ services:
       - "./nginx/certificate/dhparam.pem:/etc/nginx/ssl/dhparam.pem"
       - "./nginx/certificate/logstash.crt:/etc/nginx/ssl/logstash.crt"
       - "./nginx/certificate/logstash.key:/etc/nginx/ssl/logstash.key"
-      - "./nginx/letsencrypt.html:/var/lib/letsencrypt/index.html"
-      - ./nginx/certificate:/etc/letsencrypt/live/buron.ovh/
+      - ./nginx/data/letsencrypt:/data/letsencrypt/     
     networks:
       - elk
     depends_on:
